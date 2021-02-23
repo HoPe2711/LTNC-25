@@ -2,41 +2,32 @@
 
 using namespace std;
 
-long long f[3][1000001];
-char character[1000001];
-int cnt[1000001];
-string st;
-int n;
-
-void rebuildstring(){
-    int num=1;
-    cnt[num]=1;
-    character[num]=st[0];
-    for (int i=1; i<n; i++){
-        if (st[i]!=st[i-1]) {
-            ++num;
-            character[num]=st[i];
-            cnt[num]=1;
-        }
-        else ++cnt[num];
-    }
-    n=num;
-}
+long long f1,f2;
+int num;
+char pre,predif,ch;
 
 void solve(){
-    for (int i=1; i<=n; i++){
-        f[1][i]=f[1][i-1]+1;
-        f[2][i]+=(f[2][i-1]+f[1][i-1]);
-        if (cnt[i]>=2) f[2][i]++;
-        if (cnt[i]==1 && character[i+1]==character[i-1]) f[2][i+1]--;
+    ch=getchar();
+    num=1;
+    pre=ch;
+    while (ch!=EOF){
+        ch=getchar();
+        if (ch != pre) {
+            f2=f1+f2;
+            f1++;
+            if (num>=2) f2++;
+            if (num==1 && ch==predif) f2--;
+            predif=pre;
+            num=1;
+        }
+        else num++;
+        pre=ch;
     }
-    cout << f[2][n];
+    cout << f2;
 }
 
 int main(){
-    cin >> st;
-    n=st.size();
-    rebuildstring();
+    freopen("test.txt","r",stdin);
     solve();
     return 0;
 }
